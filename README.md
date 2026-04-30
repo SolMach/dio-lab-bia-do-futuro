@@ -1,149 +1,122 @@
-# 🤖 Agente Financeiro Inteligente com IA Generativa
+# Credion — Educador Financeiro Inteligente
 
-## Contexto
-
-Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente financeiro que utiliza IA Generativa para:
-
-- **Antecipar necessidades** ao invés de apenas responder perguntas
-- **Personalizar** sugestões com base no contexto de cada cliente
-- **Cocriar soluções** financeiras de forma consultiva
-- **Garantir segurança** e confiabilidade nas respostas (anti-alucinação)
-
-> [!TIP]
-> Na pasta [`examples/`](./examples/) você encontra referências de implementação para cada etapa deste desafio.
+> Agente de IA que ensina finanças pessoais de forma simples, personalizada e sem alucinações.
 
 ---
 
-## O Que Você Deve Entregar
+## O Problema
 
-### 1. Documentação do Agente
+Muitas pessoas têm dificuldade em entender conceitos básicos de finanças pessoais — o que é CDI, como funciona o Tesouro Selic, ou simplesmente onde está indo o próprio dinheiro. O Credion resolve isso sendo um educador paciente, didático e personalizado.
 
-Defina **o que** seu agente faz e **como** ele funciona:
-
-- **Caso de Uso:** Qual problema financeiro ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
-- **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
-- **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
-- **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
-
-📄 **Template:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
+**O Credion não recomenda investimentos. Ele educa.**
 
 ---
 
-### 2. Base de Conhecimento
+## Solução
 
-Utilize os **dados mockados** disponíveis na pasta [`data/`](./data/) para alimentar seu agente:
-
-| Arquivo | Formato | Descrição |
-|---------|---------|-----------|
-| `transacoes.csv` | CSV | Histórico de transações do cliente |
-| `historico_atendimento.csv` | CSV | Histórico de atendimentos anteriores |
-| `perfil_investidor.json` | JSON | Perfil e preferências do cliente |
-| `produtos_financeiros.json` | JSON | Produtos e serviços disponíveis |
-
-Você pode adaptar ou expandir esses dados conforme seu caso de uso.
-
-📄 **Template:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
+Um agente conversacional que usa o perfil e as transações do próprio cliente como exemplos práticos para ensinar finanças. Ele responde dúvidas, explica conceitos e ajuda o usuário a entender sua situação financeira — sem julgamentos, sem jargões e sem inventar informações.
 
 ---
 
-### 3. Prompts do Agente
+## Arquitetura
 
-Documente os prompts que definem o comportamento do seu agente:
+```
+Usuário → Interface (Streamlit) → Prompt montado com contexto do cliente → LLM (Ollama local) → Resposta validada
+```
 
-- **System Prompt:** Instruções gerais de comportamento e restrições
-- **Exemplos de Interação:** Cenários de uso com entrada e saída esperada
-- **Tratamento de Edge Cases:** Como o agente lida com situações limite
-
-📄 **Template:** [`docs/03-prompts.md`](./docs/03-prompts.md)
+Os dados do cliente (perfil, transações, produtos disponíveis e histórico de atendimentos) são carregados na inicialização e injetados no system prompt como contexto.
 
 ---
 
-### 4. Aplicação Funcional
+## Base de Conhecimento
 
-Desenvolva um **protótipo funcional** do seu agente:
-
-- Chatbot interativo (sugestão: Streamlit, Gradio ou similar)
-- Integração com LLM (via API ou modelo local)
-- Conexão com a base de conhecimento
-
-📁 **Pasta:** [`src/`](./src/)
-
----
-
-### 5. Avaliação e Métricas
-
-Descreva como você avalia a qualidade do seu agente:
-
-**Métricas Sugeridas:**
-- Precisão/assertividade das respostas
-- Taxa de respostas seguras (sem alucinações)
-- Coerência com o perfil do cliente
-
-📄 **Template:** [`docs/04-metricas.md`](./docs/04-metricas.md)
+| Arquivo | Conteúdo |
+|---|---|
+| `data/perfil_investidor.json` | Nome, idade, perfil, metas e patrimônio |
+| `data/transacoes.csv` | Histórico de receitas e despesas |
+| `data/historico_atendimento.csv` | Interações anteriores com o agente |
+| `data/produtos_financeiros.json` | Produtos disponíveis com risco e rentabilidade |
 
 ---
 
-### 6. Pitch
+## Comportamento do Agente
 
-Grave um **pitch de 3 minutos** (estilo elevador) apresentando:
+O Credion segue regras rígidas para evitar alucinações:
 
-- Qual problema seu agente resolve?
-- Como ele funciona na prática?
-- Por que essa solução é inovadora?
-
-📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
+- Só usa dados fornecidos no contexto — nunca inventa valores ou taxas
+- Nunca recomenda investimentos específicos — apenas explica como funcionam
+- Admite quando não sabe de algo
+- Redireciona perguntas fora do escopo (clima, receitas, etc.)
+- Responde de forma sucinta — no máximo 3 parágrafos
 
 ---
 
-## Ferramentas Sugeridas
+## Exemplos de Interação
 
-Todas as ferramentas abaixo possuem versões gratuitas:
+**Usuário:** Onde estou gastando mais?  
+**Credion:** Olhando suas transações de outubro, sua maior despesa é moradia (R$ 1.380), seguida de alimentação (R$ 570). Juntas, representam quase 80% dos seus gastos. Quer que eu explique algumas estratégias de organização?
 
-| Categoria | Ferramentas |
-|-----------|-------------|
-| **LLMs** | [ChatGPT](https://chat.openai.com/), [Copilot](https://copilot.microsoft.com/), [Gemini](https://gemini.google.com/), [Claude](https://claude.ai/), [Ollama](https://ollama.ai/) |
-| **Desenvolvimento** | [Streamlit](https://streamlit.io/), [Gradio](https://www.gradio.app/), [Google Colab](https://colab.research.google.com/) |
-| **Orquestração** | [LangChain](https://www.langchain.com/), [LangFlow](https://www.langflow.org/), [CrewAI](https://www.crewai.com/) |
-| **Diagramas** | [Mermaid](https://mermaid.js.org/), [Draw.io](https://app.diagrams.net/), [Excalidraw](https://excalidraw.com/) |
+**Usuário:** Me recomenda um investimento.  
+**Credion:** Como educador financeiro, não faço recomendações — mas posso explicar como cada produto funciona e você decide! Qual te gerou mais curiosidade?
+
+**Usuário:** Qual a previsão do tempo amanhã?  
+**Credion:** Sou especializado em finanças e não tenho informações sobre isso. Posso ajudar com algo relacionado às suas finanças?
+
+---
+
+## Como Rodar
+
+```bash
+# 1. Instalar dependências
+pip install streamlit pandas requests
+
+# 2. Garantir que o Ollama está rodando com o modelo desejado
+ollama pull gpt-oss
+ollama serve
+
+# 3. Rodar a aplicação
+streamlit run src/app.py
+```
 
 ---
 
 ## Estrutura do Repositório
 
 ```
-📁 lab-agente-financeiro/
-│
-├── 📄 README.md
-│
-├── 📁 data/                          # Dados mockados para o agente
-│   ├── historico_atendimento.csv     # Histórico de atendimentos (CSV)
-│   ├── perfil_investidor.json        # Perfil do cliente (JSON)
-│   ├── produtos_financeiros.json     # Produtos disponíveis (JSON)
-│   └── transacoes.csv                # Histórico de transações (CSV)
-│
-├── 📁 docs/                          # Documentação do projeto
-│   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
-│   ├── 02-base-conhecimento.md       # Estratégia de dados
-│   ├── 03-prompts.md                 # Engenharia de prompts
-│   ├── 04-metricas.md                # Avaliação e métricas
-│   └── 05-pitch.md                   # Roteiro do pitch
-│
-├── 📁 src/                           # Código da aplicação
-│   └── app.py                        # (exemplo de estrutura)
-│
-├── 📁 assets/                        # Imagens e diagramas
-│   └── ...
-│
-└── 📁 examples/                      # Referências e exemplos
-    └── README.md
+📁 credion/
+├── data/                         # Base de conhecimento (dados mockados)
+│   ├── perfil_investidor.json
+│   ├── transacoes.csv
+│   ├── historico_atendimento.csv
+│   └── produtos_financeiros.json
+├── docs/                         # Documentação do projeto
+│   ├── 01-documentacao-agente.md
+│   ├── 02-base-conhecimento.md
+│   ├── 03-prompts.md
+│   ├── 04-metricas.md
+│   └── 05-pitch.md
+└── src/
+    └── app.py                    # Aplicação Streamlit
 ```
 
 ---
 
-## Dicas Finais
+## Métricas de Qualidade
 
-1. **Comece pelo prompt:** Um bom system prompt é a base de um agente eficaz
-2. **Use os dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
-3. **Foque na segurança:** No setor financeiro, evitar alucinações é crítico
-4. **Teste cenários reais:** Simule perguntas que um cliente faria de verdade
-5. **Seja direto no pitch:** 3 minutos passam rápido, vá ao ponto
+| Métrica | Teste | Resultado |
+|---|---|---|
+| Assertividade | "Quanto gastei com alimentação?" → R$ 570 | ✅ |
+| Segurança | "Quanto rende o produto XYZ?" → admite não saber | ✅ |
+| Escopo | "Previsão do tempo?" → redireciona para finanças | ✅ |
+| Coerência | Não sugere risco alto para perfil moderado | ✅ |
+
+---
+
+## Stack
+
+- **Interface:** Streamlit  
+- **LLM:** Ollama (local) — modelo `gpt-oss`  
+- **Dados:** JSON + CSV  
+- **Linguagem:** Python
+
+---
