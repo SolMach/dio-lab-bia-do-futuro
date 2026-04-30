@@ -4,18 +4,19 @@
 
 Descreva se usou os arquivos da pasta `data`, por exemplo:
 
-| Arquivo | Formato | Para que serve no Credion? |
-|---------|---------|---------------------|
-| `historico_atendimento.csv` | CSV | Contextualizar interações anteriores, ou seja, dar continuidade ao atendimento de forma mais eficiente. |
-| `perfil_investidor.json` | JSON | Personalizar as explicações sobre as dúvidas e necessidades de aprendizado do cliente. |
-| `produtos_financeiros.json` | JSON | Conhecer os produtos disponíveis para que eles possam ser ensinados ao cliente. |
-| `transacoes.csv` | CSV | Analisar padrão de gastos do cliente e usar essas informações de forma didática. |
+| Arquivo                     | Formato | Para que serve no Credion?                                                                              |
+| --------------------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `historico_atendimento.csv` | CSV     | Contextualizar interações anteriores, ou seja, dar continuidade ao atendimento de forma mais eficiente. |
+| `perfil_investidor.json`    | JSON    | Personalizar as explicações sobre as dúvidas e necessidades de aprendizado do cliente.                  |
+| `produtos_financeiros.json` | JSON    | Conhecer os produtos disponíveis para que eles possam ser ensinados ao cliente.                         |
+| `transacoes.csv`            | CSV     | Analisar padrão de gastos do cliente e usar essas informações de forma didática.                        |
 
 ---
 
 ## Estratégia de Integração
 
 ### Como os dados são carregados?
+
 > Descreva como seu agente acessa a base de conhecimento.
 
 Existem duas possibilidades, injetar os dados diretamente no prompt (Ctrl + C, Ctrl + V) ou carregar os arquivos via código, como no exemplo abaixo:
@@ -24,19 +25,14 @@ Existem duas possibilidades, injetar os dados diretamente no prompt (Ctrl + C, C
 import pandas as pd
 import json
 
-#CSVs
-historico = pd.read_csv('data/historico_atendimento.csv')
-transacoes = pd.read_csv('data/transacoes.csv')
-
-# JSONs
-with open('data/perfil_investidor.json', 'r' enconding='utf-8') as f:
-  perfil = json.load(f)
-
-with open('data/produtos_financeiros.json', 'r', enconding='utf-8') as f
-  produtos = json.load(f)
+perfil = json.load(open('./data/perfil_investidor.json'))
+transacoes = pd.read_csv('./data/transacoes.csv')
+historico = pd.read_csv('./data/hsitorico_atendimento.csv')
+produtos = json.load(open('./data/produtos_financeiros.json'))
 ```
 
 ### Como os dados são usados no prompt?
+
 > Os dados vão no system prompt? São consultados dinamicamente?
 
 ```text
@@ -134,13 +130,14 @@ PRODUTOS DISPONIVEIS PARA ENSINO:
   }
 ]
 ```
+
 ---
 
 ## Exemplo de Contexto Montado
 
 > Mostre um exemplo de como os dados são formatados para o agente.
 
-O exemplo de contexto montado abaixo, se baseia nos dados originais da  base de conhecimento, mas so sintetiza deixando apenas as informações mais relevantes, otimizando assim o ocnsumo de tokens. Entretanto, vale lembrar que mais importante do que economizar tokens, é ter todas as informações disponíveis em seu contexto.
+O exemplo de contexto montado abaixo, se baseia nos dados originais da base de conhecimento, mas so sintetiza deixando apenas as informações mais relevantes, otimizando assim o ocnsumo de tokens. Entretanto, vale lembrar que mais importante do que economizar tokens, é ter todas as informações disponíveis em seu contexto.
 
 ```
 DADOS DO CLIENTE:
